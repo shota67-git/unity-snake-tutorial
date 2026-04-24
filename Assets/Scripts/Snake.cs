@@ -77,6 +77,14 @@ public class Snake : MonoBehaviour
         segment.position = segments[segments.Count - 1].position;
         segments.Add(segment);
     }
+    public void Shrink()
+    {
+        if (segments.Count <= 1) return; // 保留蛇頭，不再縮短
+
+        Transform lastSegment = segments[segments.Count - 1];
+        segments.RemoveAt(segments.Count - 1);
+        Destroy(lastSegment.gameObject);
+    }
 
     public void ResetState()
     {
@@ -116,6 +124,10 @@ public class Snake : MonoBehaviour
         if (other.gameObject.CompareTag("Food"))
         {
             Grow();
+        }
+        if (other.gameObject.CompareTag("Bomb"))
+        {
+            Shrink();
         }
         else if (other.gameObject.CompareTag("Obstacle"))
         {
